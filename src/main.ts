@@ -1,8 +1,10 @@
 import './style.css'
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+const target = document.querySelector<HTMLInputElement>('#target')!;
+const username = document.querySelector<HTMLInputElement>('#username')!;
+const password = document.querySelector<HTMLInputElement>('#password')!;
 
-app.innerHTML = `
-    <h1>Hello Vite!</h1>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+const search = document.querySelector<HTMLInputElement>('#password')!;
+
+const result = document.querySelector<HTMLDivElement>('#result')!;
+
