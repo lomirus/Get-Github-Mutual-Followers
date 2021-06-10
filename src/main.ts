@@ -98,21 +98,38 @@ function renderAuthentication() {
 
 async function getPeople(group: string): Promise<User[]> {
     let people = new Array<User>();
+    const authenticated = localStorage.getItem('authenticated') === 'true';
+    const fetchData = (() => {
+        if (authenticated) {
+            const headers = new Headers();
+            headers.append('Authorization', 'Basic ' + btoa(usernameInput.value + ':' + passwordInput.value));
+            return async (page: number) => {
+                const query = jsonToQueryString({ "per_page": 100, "page": page });
+                const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
+                return await fetch(url, { headers })
+            }
+        } else {
+            return async (page: number) => {
+                const query = jsonToQueryString({ "per_page": 100, "page": page });
+                const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
+                return await fetch(url)
+            }
+        }
+    })();
     for (let page = 1; ; page++) {
         console.log(`Getting ${group} page:`, page)
-        const headers = new Headers();
-        headers.append('Authorization', 'Basic ' + btoa(usernameInput.value + ':' + passwordInput.value));
-        const query = jsonToQueryString({ "per_page": 100, "page": page });
-        const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
-        const data = await fetch(url, { headers })
-        const json = await data.json();
-
+        const data = await fetchData(page) as Response;
+        const json = await data.json()
+        if (data.status === 403) {
+            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]} Please try authenticated requests.`)
+        }
         if (json.length > 0) {
             people = people.concat(json)
         } else {
             break;
         }
     }
+    console.log(`Task of ${targetInput.value} has completed.`)
     return people
 }
 
