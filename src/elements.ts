@@ -1,13 +1,11 @@
 import SearchView from "./components/SearchView";
-import TokenAuth from "./components/TokenAuth";
+import AuthView from "./components/AuthView";
 
-const search = document.querySelector<SearchView>('#search')!;
-const tokenAuth = document.querySelector<TokenAuth>('token-auth')!;
-
-const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
+const searchView = document.querySelector<SearchView>('search-view')!;
+const authView = document.querySelector<AuthView>('token-auth')!;
 
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
 export {
-    search, tokenAuth, switchAuthButton, results
+    searchView, authView, results
 }

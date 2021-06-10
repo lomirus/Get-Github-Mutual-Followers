@@ -1,6 +1,3 @@
-import { results } from '../elements'
-import { User, getPeople } from '../utils'
-
 class TokenAuth extends HTMLElement {
     button: HTMLButtonElement;
     input: HTMLInputElement;

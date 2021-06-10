@@ -1,4 +1,4 @@
-import { search, tokenAuth } from './elements'
+import { searchView, authView } from './elements'
 
 export type User = {
     "login": string,
@@ -31,23 +31,22 @@ export async function getPeople(group: string): Promise<User[]> {
     const fetchData = (() => {
         if (authenticated) {
             const headers = new Headers();
-            headers.append('Authorization', `token ${tokenAuth.getInputValue()}`);
+            headers.append('Authorization', `token ${authView.getInputValue()}`);
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
-                console.log(headers.get('Authorization'))
-                const url = `https://api.github.com/users/${search.getInputValue()}/${group}?${query}`
+                const url = `https://api.github.com/users/${searchView.getInputValue()}/${group}?${query}`
                 return await fetch(url, { headers })
             }
         } else {
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
-                const url = `https://api.github.com/users/${search.getInputValue()}/${group}?${query}`
+                const url = `https://api.github.com/users/${searchView.getInputValue()}/${group}?${query}`
                 return await fetch(url)
             }
         }
     })();
     for (let page = 1; ; page++) {
-        console.log(`Getting ${search.getInputValue()}'s ${group} of page:`, page)
+        console.log(`Getting ${searchView.getInputValue()}'s ${group} of page:`, page)
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {

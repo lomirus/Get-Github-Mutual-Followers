@@ -1,4 +1,4 @@
-import { tokenAuth } from '../elements'
+import { authView } from '../elements'
 
 class GetStatus extends HTMLElement {
     constructor() {
@@ -46,7 +46,7 @@ class GetStatus extends HTMLElement {
             const fetchData = (() => {
                 if (authenticated) {
                     const headers = new Headers();
-                    headers.append('Authorization', `token ${tokenAuth.getInputValue()}`);
+                    headers.append('Authorization', `token ${authView.getInputValue()}`);
                     return async () => {
                         const url = `https://api.github.com/rate_limit`
                         return await fetch(url, { headers })
