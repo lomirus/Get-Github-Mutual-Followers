@@ -51,7 +51,7 @@ searchButton.addEventListener('click', async () => {
         const userElement = document.createElement('div');
         userElement.className = "user";
         userElement.innerHTML = `
-            <img src="${user.avatar_url}"><a href="${user.html_url}">${user.login}</a>
+            <img src="${user.avatar_url}"><a href="${user.html_url}" target="_blank">${user.login}</a>
         `;
         results.appendChild(userElement);
     });

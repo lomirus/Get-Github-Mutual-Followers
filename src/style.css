@@ -11,6 +11,7 @@ header {
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 64px;
 }
 
 header>#main {
@@ -29,14 +30,28 @@ header>#authentication {
 #results {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 980px;
+    margin: 0 auto;
 }
 
 #results>.user{
-    width: 200px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #results>.user>img{
-    width: 200px;
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    border: solid 1px #e1e4e8
+}
+
+#results>.user>a{
+    word-break: break-all;
 }
 
 input[type="text"], input[type="password"] {
@@ -76,4 +91,13 @@ button:hover {
 button:active {
     background-color: rgb(235, 236, 240);
     border-color: rgba(27, 31, 35, 0.1);
+}
+
+a {
+    color: #24212e;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0366d6
 }
