@@ -2,6 +2,22 @@
 
 A Web App based on Vanilla TS to query the mutual followers of a specified Github user through the Github official APIs.
 
+## Usage
+
+### Online Version
+
+Visit [Github Pages](https://lomirus.github.io/get-github-mutual-followers/)
+
+### Local version
+
+Download and run:
+
+```bash
+npm install
+npm run build
+npm run serve
+```
+
 ## Q&A
 
 ### Why does it need my person access token?
