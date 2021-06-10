@@ -1,4 +1,5 @@
-import './style.css'
+import './style/main.css'
+import './style/index.css'
 
 type User = {
     "login": string,
