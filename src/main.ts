@@ -27,7 +27,8 @@ const passwordInput = document.querySelector<HTMLInputElement>('#password')!;
 
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
-const switchAuthButton = document.querySelector<HTMLInputElement>('#authentication>button')!;
+const switchAuthButton = document.querySelector<HTMLInputElement>('#authentication>#switch')!;
+const helpButton = document.querySelector<HTMLInputElement>('#authentication>#help')!;
 
 const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
 
@@ -46,6 +47,7 @@ searchButton.addEventListener('click', async () => {
 
     const followers = await getPeople("followers");
     const following = await getPeople("following");
+    console.log('')
     const mutual = new Array<User>();
 
     for (let i = 0; i < followers.length; i++) {
@@ -82,6 +84,13 @@ switchAuthButton.addEventListener('click', () => {
     }
     renderAuthentication()
 })
+helpButton.addEventListener('click', () => {
+    alert(`Authorized: 5,000 requests per hour;
+Authorized (Enterprise): 15,000 requests per hour;
+Unauthenticated: 60 requests per hour.
+
+More Information: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting`)
+})
 
 function renderAuthentication() {
     const state: string = localStorage.getItem('authenticated') ?? 'false';
@@ -117,7 +126,7 @@ async function getPeople(group: string): Promise<User[]> {
         }
     })();
     for (let page = 1; ; page++) {
-        console.log(`Getting ${group} page:`, page)
+        console.log(`Getting ${targetInput.value}'s ${group} of page:`, page)
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {
@@ -129,7 +138,6 @@ async function getPeople(group: string): Promise<User[]> {
             break;
         }
     }
-    console.log(`Task of ${targetInput.value} has completed.`)
     return people
 }
 
