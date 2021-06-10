@@ -36,6 +36,8 @@ searchButton.addEventListener('click', async () => {
     localStorage.setItem('username', usernameInput.value);
     localStorage.setItem('password', passwordInput.value);
 
+    searchButton.setAttribute('disabled', 'disabled');
+
     const followers = await getPeople("followers");
     const following = await getPeople("following");
     const mutual = new Array<User>();
@@ -55,6 +57,8 @@ searchButton.addEventListener('click', async () => {
         `;
         results.appendChild(userElement);
     });
+
+    searchButton.removeAttribute('disabled');
 })
 settingsButton.addEventListener('click', () => {
     if (authentication.style.display !== 'none') {
