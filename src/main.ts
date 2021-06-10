@@ -22,8 +22,7 @@ type User = {
 }
 
 const targetInput = document.querySelector<HTMLInputElement>('#target')!;
-const usernameInput = document.querySelector<HTMLInputElement>('#username')!;
-const passwordInput = document.querySelector<HTMLInputElement>('#password')!;
+const tokenInput = document.querySelector<HTMLInputElement>('#token')!;
 
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
@@ -40,8 +39,7 @@ searchButton.addEventListener('click', async () => {
         return
     }
 
-    localStorage.setItem('username', usernameInput.value);
-    localStorage.setItem('password', passwordInput.value);
+    localStorage.setItem('token', tokenInput.value);
 
     searchButton.setAttribute('disabled', 'disabled');
 
@@ -96,12 +94,10 @@ function renderAuthentication() {
     const state: string = localStorage.getItem('authenticated') ?? 'false';
     if (state === "true") {
         switchAuthButton.textContent = "✅ Authenticated"
-        usernameInput.removeAttribute('disabled')
-        passwordInput.removeAttribute('disabled')
+        tokenInput.removeAttribute('disabled')
     } else {
         switchAuthButton.textContent = "❌ Unauthenticated"
-        usernameInput.setAttribute('disabled', 'disabled')
-        passwordInput.setAttribute('disabled', 'disabled')
+        tokenInput.setAttribute('disabled', 'disabled')
     }
 }
 
@@ -111,9 +107,10 @@ async function getPeople(group: string): Promise<User[]> {
     const fetchData = (() => {
         if (authenticated) {
             const headers = new Headers();
-            headers.append('Authorization', 'Basic ' + btoa(usernameInput.value + ':' + passwordInput.value));
+            headers.append('Authorization', `token ${tokenInput.value}`);
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
+                console.log(headers.get('Authorization'))
                 const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
                 return await fetch(url, { headers })
             }
@@ -146,8 +143,7 @@ function jsonToQueryString(json: Record<string, any>): string {
 }
 
 function init() {
-    usernameInput.value = localStorage.getItem('username') ?? '';
-    passwordInput.value = localStorage.getItem('password') ?? '';
+    tokenInput.value = localStorage.getItem('token') ?? '';
 
     renderAuthentication()
 }
