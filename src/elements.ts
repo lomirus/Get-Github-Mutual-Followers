@@ -1,5 +1,6 @@
-const searchInput = document.querySelector<HTMLInputElement>('#search>input')!;
-const searchButton = document.querySelector<HTMLInputElement>('#search>button')!;
+import SearchView from "./components/SearchView";
+
+const search = document.querySelector<SearchView>('#search')!;
 
 const tokenInput = document.querySelector<HTMLInputElement>('#token>input')!;
 const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
@@ -7,5 +8,5 @@ const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switc
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
 export {
-    searchInput, searchButton, tokenInput, switchAuthButton, results
+    search, tokenInput, switchAuthButton, results
 }

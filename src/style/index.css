@@ -14,17 +14,6 @@ header {
     margin-bottom: 64px;
 }
 
-header>#search {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-}
-
-header>#search>input{
-    width: 240px;
-}
-
 header>#operation {
     display: flex;
     flex-direction: column;
