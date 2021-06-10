@@ -1,4 +1,4 @@
-import { search, tokenInput } from './elements'
+import { search, tokenAuth } from './elements'
 
 export type User = {
     "login": string,
@@ -31,7 +31,7 @@ export async function getPeople(group: string): Promise<User[]> {
     const fetchData = (() => {
         if (authenticated) {
             const headers = new Headers();
-            headers.append('Authorization', `token ${tokenInput.value}`);
+            headers.append('Authorization', `token ${tokenAuth.getInputValue()}`);
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
                 console.log(headers.get('Authorization'))

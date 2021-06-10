@@ -1,4 +1,4 @@
-import { results, tokenInput } from '../elements'
+import { results, tokenAuth } from '../elements'
 import { User, getPeople } from '../utils'
 
 class SearchView extends HTMLElement {
@@ -75,7 +75,7 @@ class SearchView extends HTMLElement {
                 return
             }
         
-            localStorage.setItem('token', tokenInput.value);
+            localStorage.setItem('token', tokenAuth.getInputValue());
         
             button.setAttribute('disabled', 'disabled');
         
