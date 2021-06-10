@@ -77,12 +77,24 @@ switchAuthButton.addEventListener('click', () => {
     const state: string = localStorage.getItem('authenticated') ?? 'false';
     if (state === "true") {
         localStorage.setItem('authenticated', 'false')
-        switchAuthButton.textContent = "❌ Unauthenticated"
     } else {
         localStorage.setItem('authenticated', 'true')
-        switchAuthButton.textContent = "✅ Authenticated"
     }
+    renderAuthentication()
 })
+
+function renderAuthentication() {
+    const state: string = localStorage.getItem('authenticated') ?? 'false';
+    if (state === "true") {
+        switchAuthButton.textContent = "✅ Authenticated"
+        usernameInput.removeAttribute('disabled')
+        passwordInput.removeAttribute('disabled')
+    } else {
+        switchAuthButton.textContent = "❌ Unauthenticated"
+        usernameInput.setAttribute('disabled', 'disabled')
+        passwordInput.setAttribute('disabled', 'disabled')
+    }
+}
 
 async function getPeople(group: string): Promise<User[]> {
     let people = new Array<User>();
@@ -112,10 +124,7 @@ function init() {
     usernameInput.value = localStorage.getItem('username') ?? '';
     passwordInput.value = localStorage.getItem('password') ?? '';
 
-    const authenticated: string = localStorage.getItem('authenticated') ?? 'false';
-    switchAuthButton.textContent = authenticated === "true" ?
-        "✅ Authenticated" :
-        "❌ Unauthenticated"
+    renderAuthentication()
 }
 
 init();
