@@ -1,6 +1,12 @@
 import './style/main.css'
 import './style/index.css'
 
+import {
+    searchInput, searchButton, tokenInput, switchAuthButton, results
+} from './elements'
+
+import './components/GetStatus'
+
 type User = {
     "login": string,
     "id": number,
@@ -21,15 +27,6 @@ type User = {
     "type": string,
     "site_admin": boolean
 }
-
-const searchInput = document.querySelector<HTMLInputElement>('#search>input')!;
-const searchButton = document.querySelector<HTMLInputElement>('#search>button')!;
-
-const tokenInput = document.querySelector<HTMLInputElement>('#token>input')!;
-const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
-const getStatusButton = document.querySelector<HTMLInputElement>('#get_status')!;
-
-const results = document.querySelector<HTMLDivElement>('#results')!;
 
 searchButton.addEventListener('click', async () => {
     if (searchInput.value === '') {
@@ -72,42 +69,6 @@ switchAuthButton.addEventListener('click', () => {
         localStorage.setItem('authenticated', 'true')
     }
     renderAuthentication()
-})
-getStatusButton.addEventListener('click', async () => {
-    getStatusButton.setAttribute('disabled', 'disabled')
-    const authenticated = localStorage.getItem('authenticated') === 'true';
-    const fetchData = (() => {
-        if (authenticated) {
-            const headers = new Headers();
-            headers.append('Authorization', `token ${tokenInput.value}`);
-            return async () => {
-                const url = `https://api.github.com/rate_limit`
-                return await fetch(url, { headers })
-            }
-        } else {
-            return async () => {
-                const url = `https://api.github.com/rate_limit`
-                return await fetch(url)
-            }
-        }
-    })()
-    const data = await fetchData();
-    const json = await data.json();
-    if (data.status !== 200) {
-        alert(`Error: ${json.message}`);
-        getStatusButton.removeAttribute('disabled')
-        return;
-    }
-    const core = json.resources.core;
-    const N = '\n'
-    alert(
-        `Authenticated: ${authenticated}${N
-        }Limit: ${core.limit}${N
-        }Used: ${core.used}${N
-        }Remaining: ${core.remaining}${N
-        }Reset Time: ${new Date(core.reset * 1000)}`
-    )
-    getStatusButton.removeAttribute('disabled')
 })
 
 function renderAuthentication() {
