@@ -107,7 +107,8 @@ getStatusButton.addEventListener('click', async () => {
     const core = json.resources.core;
     const N = '\n'
     alert(
-        `Limit: ${core.limit}${N
+        `Authenticated: ${authenticated}${N
+        }Limit: ${core.limit}${N
         }Used: ${core.used}${N
         }Remaining: ${core.remaining}${N
         }Reset Time: ${new Date(core.reset * 1000)}`
