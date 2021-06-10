@@ -33,6 +33,11 @@ const authentication = document.querySelector<HTMLDivElement>('#authentication')
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
 searchButton.addEventListener('click', async () => {
+    if (targetInput.value === '') {
+        alert('Target username cannot be empty.');
+        return
+    }
+
     localStorage.setItem('username', usernameInput.value);
     localStorage.setItem('password', passwordInput.value);
 
