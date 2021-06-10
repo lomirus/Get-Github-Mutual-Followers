@@ -26,6 +26,4 @@ P.S. You needn't to select any scope.
 
 That depends on the number of following and followers of the user you specified. And they have such relationship:
 
-$$
-n_{requests}=\lceil \frac{n_{following}}{100}\rceil + \lceil \frac{n_{followers}}{100}\rceil
-$$
+![n_{requests}=\lceil%20\frac{n_{following}}{100}\rceil%20+%20\lceil%20\frac{n_{followers}}{100}\rceil](https://latex.codecogs.com/svg.latex?n_{requests}=\lceil%20\frac{n_{following}}{100}\rceil%20+%20\lceil%20\frac{n_{followers}}{100}\rceil)
