@@ -130,7 +130,7 @@ async function getPeople(group: string): Promise<User[]> {
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {
-            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]} Please try authenticated requests.`)
+            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]}`)
         }
         if (json.length > 0) {
             people = people.concat(json)
