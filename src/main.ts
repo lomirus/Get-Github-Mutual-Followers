@@ -29,7 +29,6 @@ const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
 const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
 const getStatusButton = document.querySelector<HTMLInputElement>('#get_status')!;
-const helpButton = document.querySelector<HTMLInputElement>('#help')!;
 
 const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
 
@@ -119,16 +118,6 @@ getStatusButton.addEventListener('click', async () => {
         }Reset Time: ${new Date(core.reset * 1000)}`
     )
     getStatusButton.removeAttribute('disabled')
-})
-helpButton.addEventListener('click', () => {
-    const N = '\n'
-    alert(
-        `Authorized: 5,000 requests per hour;${N
-        }Authorized (Enterprise): 15,000 requests per hour;${N
-        }Unauthenticated: 60 requests per hour.${N
-        }${N
-        }More Information: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting`
-    )
 })
 
 function renderAuthentication() {
