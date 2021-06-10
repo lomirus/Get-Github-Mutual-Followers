@@ -16,6 +16,12 @@ You can use this app without your token, but the number of request would be very
 
 Visit the [official documentation](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting) for more information.
 
+### How to create a github personal access token?
+
+Sign in Github account and visit [here](https://github.com/settings/tokens).
+
+P.S. You needn't to select any scope.
+
 ### How many requests will it take when I search one user?
 
 That depends on the number of following and followers of the user you specified. And they have such relationship:
