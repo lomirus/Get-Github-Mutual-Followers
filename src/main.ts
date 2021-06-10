@@ -176,7 +176,8 @@ async function getPeople(group: string): Promise<User[]> {
         }
         if (json.length > 0) {
             people = people.concat(json)
-        } else {
+        }
+        if (json.length < 100) {
             return people
         }
     }
