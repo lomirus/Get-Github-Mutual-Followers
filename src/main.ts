@@ -22,13 +22,13 @@ type User = {
 }
 
 const targetInput = document.querySelector<HTMLInputElement>('#target')!;
-const tokenInput = document.querySelector<HTMLInputElement>('#token')!;
+const tokenInput = document.querySelector<HTMLInputElement>('#token>input')!;
 
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
-const switchAuthButton = document.querySelector<HTMLInputElement>('#authentication>#switch')!;
-const getStatusButton = document.querySelector<HTMLInputElement>('#authentication>#get_status')!;
-const helpButton = document.querySelector<HTMLInputElement>('#authentication>#help')!;
+const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
+const getStatusButton = document.querySelector<HTMLInputElement>('#get_status')!;
+const helpButton = document.querySelector<HTMLInputElement>('#help')!;
 
 const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
 
@@ -128,10 +128,10 @@ helpButton.addEventListener('click', () => {
 function renderAuthentication() {
     const state: string = localStorage.getItem('authenticated') ?? 'false';
     if (state === "true") {
-        switchAuthButton.textContent = "✅ Authenticated"
+        switchAuthButton.textContent = "✅"
         tokenInput.removeAttribute('disabled')
     } else {
-        switchAuthButton.textContent = "❌ Unauthenticated"
+        switchAuthButton.textContent = "❌"
         tokenInput.setAttribute('disabled', 'disabled')
     }
 }

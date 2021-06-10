@@ -27,6 +27,21 @@ header>#authentication {
     gap: 8px;
 }
 
+header #token {
+    display: flex;
+}
+
+header #token>button {
+    padding: 4px 6px;
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+}
+
+header #token>input {
+    border-radius: 0 4px 4px 0;
+}
+
+
 #results {
     display: flex;
     flex-wrap: wrap;
