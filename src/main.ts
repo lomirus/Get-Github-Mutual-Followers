@@ -22,20 +22,17 @@ type User = {
     "site_admin": boolean
 }
 
-const targetInput = document.querySelector<HTMLInputElement>('#target')!;
-const tokenInput = document.querySelector<HTMLInputElement>('#token>input')!;
+const searchInput = document.querySelector<HTMLInputElement>('#search>input')!;
+const searchButton = document.querySelector<HTMLInputElement>('#search>button')!;
 
-const searchButton = document.querySelector<HTMLInputElement>('#search')!;
-const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
+const tokenInput = document.querySelector<HTMLInputElement>('#token>input')!;
 const switchAuthButton = document.querySelector<HTMLInputElement>('#token>#switch')!;
 const getStatusButton = document.querySelector<HTMLInputElement>('#get_status')!;
-
-const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
 
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
 searchButton.addEventListener('click', async () => {
-    if (targetInput.value === '') {
+    if (searchInput.value === '') {
         alert('Target username cannot be empty.');
         return
     }
@@ -66,13 +63,6 @@ searchButton.addEventListener('click', async () => {
     });
 
     searchButton.removeAttribute('disabled');
-})
-settingsButton.addEventListener('click', () => {
-    if (authentication.style.display !== 'none') {
-        authentication.style.display = 'none';
-    } else {
-        authentication.style.display = 'flex';
-    }
 })
 switchAuthButton.addEventListener('click', () => {
     const state: string = localStorage.getItem('authenticated') ?? 'false';
@@ -141,19 +131,19 @@ async function getPeople(group: string): Promise<User[]> {
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
                 console.log(headers.get('Authorization'))
-                const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
+                const url = `https://api.github.com/users/${searchInput.value}/${group}?${query}`
                 return await fetch(url, { headers })
             }
         } else {
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
-                const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
+                const url = `https://api.github.com/users/${searchInput.value}/${group}?${query}`
                 return await fetch(url)
             }
         }
     })();
     for (let page = 1; ; page++) {
-        console.log(`Getting ${targetInput.value}'s ${group} of page:`, page)
+        console.log(`Getting ${searchInput.value}'s ${group} of page:`, page)
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {

@@ -14,14 +14,18 @@ header {
     margin-bottom: 64px;
 }
 
-header>#main {
+header>#search {
     margin-bottom: 20px;
     display: flex;
     flex-direction: row;
     gap: 4px;
 }
 
-header>#authentication {
+header>#search>input{
+    width: 240px;
+}
+
+header>#operation {
     display: flex;
     flex-direction: column;
     gap: 8px;
