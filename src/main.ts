@@ -91,7 +91,6 @@ getStatusButton.addEventListener('click', async () => {
             const headers = new Headers();
             headers.append('Authorization', `token ${tokenInput.value}`);
             return async () => {
-                console.log(headers.get('Authorization'))
                 const url = `https://api.github.com/rate_limit`
                 return await fetch(url, { headers })
             }
@@ -104,6 +103,11 @@ getStatusButton.addEventListener('click', async () => {
     })()
     const data = await fetchData();
     const json = await data.json();
+    if (data.status !== 200) {
+        alert(`Error: ${json.message}`);
+        getStatusButton.removeAttribute('disabled')
+        return;
+    }
     const core = json.resources.core;
     const N = '\n'
     alert(
@@ -163,15 +167,18 @@ async function getPeople(group: string): Promise<User[]> {
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {
-            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]}`)
+            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]}`);
+            return people;
+        } else if (data.status !== 200) {
+            alert(`Error: ${json.message}`);
+            return people;
         }
         if (json.length > 0) {
             people = people.concat(json)
         } else {
-            break;
+            return people
         }
     }
-    return people
 }
 
 function jsonToQueryString(json: Record<string, any>): string {
