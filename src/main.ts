@@ -26,6 +26,9 @@ const usernameInput = document.querySelector<HTMLInputElement>('#username')!;
 const passwordInput = document.querySelector<HTMLInputElement>('#password')!;
 
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
+const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
+
+const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
 
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
@@ -52,6 +55,13 @@ searchButton.addEventListener('click', async () => {
         `;
         results.appendChild(userElement);
     });
+})
+settingsButton.addEventListener('click', () => {
+    if (authentication.style.display !== 'none') {
+        authentication.style.display = 'none';
+    } else {
+        authentication.style.display = 'flex';
+    }
 })
 
 async function getPeople(group: string): Promise<User[]> {
