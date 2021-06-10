@@ -27,7 +27,7 @@ const passwordInput = document.querySelector<HTMLInputElement>('#password')!;
 
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 
-const result = document.querySelector<HTMLDivElement>('#result')!;
+const results = document.querySelector<HTMLDivElement>('#results')!;
 
 searchButton.addEventListener('click', async () => {
     const followers = await getPeople("followers");
@@ -40,7 +40,14 @@ searchButton.addEventListener('click', async () => {
         }
     }
 
-    mutual.forEach(user => console.log(`[${user.login}](${user.html_url})`));
+    mutual.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.className = "user";
+        userElement.innerHTML = `
+            <img src="${user.avatar_url}"><a href="${user.html_url}">${user.login}</a>
+        `;
+        results.appendChild(userElement);
+    });
 })
 
 async function getPeople(group: string): Promise<User[]> {

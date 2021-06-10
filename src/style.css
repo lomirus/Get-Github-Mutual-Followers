@@ -15,4 +15,13 @@
 
 #results {
     display: flex;
+    flex-wrap: wrap;
+}
+
+#results>.user{
+    width: 200px;
+}
+
+#results>.user>img{
+    width: 200px;
 }
