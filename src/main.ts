@@ -30,8 +30,8 @@ const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const result = document.querySelector<HTMLDivElement>('#result')!;
 
 searchButton.addEventListener('click', async () => {
-    const followers = await getFollowers(targetInput.value);
-    const following = await getFollowing(targetInput.value);
+    const followers = await getPeople("followers");
+    const following = await getPeople("following");
     const mutual = new Array<User>();
 
     for (let i = 0; i < followers.length; i++) {
@@ -43,43 +43,24 @@ searchButton.addEventListener('click', async () => {
     mutual.forEach(user => console.log(`[${user.login}](${user.html_url})`));
 })
 
-async function getFollowers(username: string): Promise<User[]> {
-    let followers = new Array<User>();
+async function getPeople(group: string): Promise<User[]> {
+    let people = new Array<User>();
     for (let page = 1; ; page++) {
-        console.log("Getting Followers Page:", page)
+        console.log(`Getting ${group} page:`, page)
         const headers = new Headers();
         headers.append('Authorization', 'Basic ' + btoa(usernameInput.value + ':' + passwordInput.value));
         const query = jsonToQueryString({ "per_page": 100, "page": page });
-        const url = `https://api.github.com/users/${username}/followers?${query}`
-        const data = await fetch(url, { headers })
-        const json = await data.json();
-        if (json.length > 0) {
-            followers = followers.concat(json)
-        } else {
-            break;
-        }
-    }
-    return followers
-}
-
-async function getFollowing(username: string): Promise<User[]> {
-    let following = new Array<User>();
-    for (let page = 1; ; page++) {
-        console.log("Getting Following Page:", page)
-        const headers = new Headers();
-        headers.append('Authorization', 'Basic ' + btoa(usernameInput.value + ':' + passwordInput.value));
-        const query = jsonToQueryString({ "per_page": 100, "page": page });
-        const url = `https://api.github.com/users/${username}/following?${query}`
+        const url = `https://api.github.com/users/${targetInput.value}/${group}?${query}`
         const data = await fetch(url, { headers })
         const json = await data.json();
 
         if (json.length > 0) {
-            following = following.concat(json)
+            people = people.concat(json)
         } else {
             break;
         }
     }
-    return following
+    return people
 }
 
 function jsonToQueryString(json: Record<string, any>): string {
