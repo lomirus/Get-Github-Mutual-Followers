@@ -40,6 +40,7 @@ searchButton.addEventListener('click', async () => {
         }
     }
 
+    results.innerHTML = '';
     mutual.forEach(user => {
         const userElement = document.createElement('div');
         userElement.className = "user";
