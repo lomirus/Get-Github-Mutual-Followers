@@ -30,6 +30,9 @@ const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const results = document.querySelector<HTMLDivElement>('#results')!;
 
 searchButton.addEventListener('click', async () => {
+    localStorage.setItem('username', usernameInput.value);
+    localStorage.setItem('password', passwordInput.value);
+
     const followers = await getPeople("followers");
     const following = await getPeople("following");
     const mutual = new Array<User>();
@@ -74,3 +77,11 @@ async function getPeople(group: string): Promise<User[]> {
 function jsonToQueryString(json: Record<string, any>): string {
     return Object.entries(json).map(entry => `${entry[0]}=${entry[1]}`).join('&')
 }
+
+function init() {
+    usernameInput.value = localStorage.getItem('username') ?? '';
+    passwordInput.value = localStorage.getItem('password') ?? '';
+}
+
+init();
+
