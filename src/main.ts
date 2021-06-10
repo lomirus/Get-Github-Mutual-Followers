@@ -27,6 +27,7 @@ const tokenInput = document.querySelector<HTMLInputElement>('#token')!;
 const searchButton = document.querySelector<HTMLInputElement>('#search')!;
 const settingsButton = document.querySelector<HTMLInputElement>('#settings')!;
 const switchAuthButton = document.querySelector<HTMLInputElement>('#authentication>#switch')!;
+const getStatusButton = document.querySelector<HTMLInputElement>('#authentication>#get_status')!;
 const helpButton = document.querySelector<HTMLInputElement>('#authentication>#help')!;
 
 const authentication = document.querySelector<HTMLDivElement>('#authentication')!;
@@ -82,12 +83,46 @@ switchAuthButton.addEventListener('click', () => {
     }
     renderAuthentication()
 })
+getStatusButton.addEventListener('click', async () => {
+    getStatusButton.setAttribute('disabled', 'disabled')
+    const authenticated = localStorage.getItem('authenticated') === 'true';
+    const fetchData = (() => {
+        if (authenticated) {
+            const headers = new Headers();
+            headers.append('Authorization', `token ${tokenInput.value}`);
+            return async () => {
+                console.log(headers.get('Authorization'))
+                const url = `https://api.github.com/rate_limit`
+                return await fetch(url, { headers })
+            }
+        } else {
+            return async () => {
+                const url = `https://api.github.com/rate_limit`
+                return await fetch(url)
+            }
+        }
+    })()
+    const data = await fetchData();
+    const json = await data.json();
+    const core = json.resources.core;
+    const N = '\n'
+    alert(
+        `Limit: ${core.limit}${N
+        }Used: ${core.used}${N
+        }Remaining: ${core.remaining}${N
+        }Reset Time: ${new Date(core.reset * 1000)}`
+    )
+    getStatusButton.removeAttribute('disabled')
+})
 helpButton.addEventListener('click', () => {
-    alert(`Authorized: 5,000 requests per hour;
-Authorized (Enterprise): 15,000 requests per hour;
-Unauthenticated: 60 requests per hour.
-
-More Information: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting`)
+    const N = '\n'
+    alert(
+        `Authorized: 5,000 requests per hour;${N
+        }Authorized (Enterprise): 15,000 requests per hour;${N
+        }Unauthenticated: 60 requests per hour.${N
+        }${N
+        }More Information: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting`
+    )
 })
 
 function renderAuthentication() {
