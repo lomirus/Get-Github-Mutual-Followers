@@ -1,5 +1,3 @@
-import { searchView, authView } from './elements'
-
 export type User = {
     "login": string,
     "id": number,
@@ -25,32 +23,33 @@ function jsonToQueryString(json: Record<string, any>): string {
     return Object.entries(json).map(entry => `${entry[0]}=${entry[1]}`).join('&')
 }
 
-export async function getPeople(group: string): Promise<User[]> {
+export async function getPeople(user: string, type: string): Promise<User[]> {
     let people = new Array<User>();
     const authenticated = localStorage.getItem('authenticated') === 'true';
     const fetchData = (() => {
         if (authenticated) {
             const headers = new Headers();
-            headers.append('Authorization', `token ${authView.getInputValue()}`);
+            const token = localStorage.getItem('token')
+            headers.append('Authorization', `token ${token}`);
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
-                const url = `https://api.github.com/users/${searchView.getInputValue()}/${group}?${query}`
+                const url = `https://api.github.com/users/${user}/${type}?${query}`
                 return await fetch(url, { headers })
             }
         } else {
             return async (page: number) => {
                 const query = jsonToQueryString({ "per_page": 100, "page": page });
-                const url = `https://api.github.com/users/${searchView.getInputValue()}/${group}?${query}`
+                const url = `https://api.github.com/users/${user}/${type}?${query}`
                 return await fetch(url)
             }
         }
     })();
     for (let page = 1; ; page++) {
-        console.log(`Getting ${searchView.getInputValue()}'s ${group} of page:`, page)
+        console.log(`Getting ${user}'s ${type} of page:`, page)
         const data = await fetchData(page) as Response;
         const json = await data.json()
         if (data.status === 403) {
-            alert(`Failed to get the ${group}: ${json.message.split(' (')[0]}`);
+            alert(`Failed to get the ${type}: ${json.message.split(' (')[0]}`);
             return people;
         } else if (data.status !== 200) {
             alert(`Error: ${json.message}`);

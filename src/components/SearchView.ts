@@ -1,8 +1,9 @@
-import { results, authView } from '../elements'
+import { results } from '../elements'
 import { User, getPeople } from '../utils'
 
 class SearchView extends HTMLElement {
-    getInputValue: () => string;
+    input: HTMLInputElement;
+    button: HTMLButtonElement;
     constructor() {
         super();
 
@@ -62,25 +63,23 @@ class SearchView extends HTMLElement {
             }
         `
 
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = 'Search Username...'
+        this.input = document.createElement('input');
+        this.input.type = 'text';
+        this.input.placeholder = 'Search Username...'
 
-        const button = document.createElement('button');
-        button.textContent = 'Search';
+        this.button = document.createElement('button');
+        this.button.textContent = 'Search';
 
-        button.addEventListener('click', async () => {
-            if (input.value === '') {
+        this.button.addEventListener('click', async () => {
+            if (this.input.value === '') {
                 alert('Target username cannot be empty.');
                 return
             }
         
-            localStorage.setItem('token', authView.getInputValue());
+            this.button.setAttribute('disabled', 'disabled');
         
-            button.setAttribute('disabled', 'disabled');
-        
-            const followers = await getPeople("followers");
-            const following = await getPeople("following");
+            const followers = await getPeople(this.input.value, "followers");
+            const following = await getPeople(this.input.value, "following");
             console.log('')
             const mutual = new Array<User>();
         
@@ -100,17 +99,15 @@ class SearchView extends HTMLElement {
                 results.appendChild(userElement);
             });
         
-            button.removeAttribute('disabled');
+            this.button.removeAttribute('disabled');
         })
 
-        this.getInputValue = () => {
-            return input.value;
-        }
-
         shadow.appendChild(style);
-        shadow.appendChild(input);
-        shadow.appendChild(button);
+        shadow.appendChild(this.input);
+        shadow.appendChild(this.button);
     }
+
+    getInputValue = () => this.input.value
 }
 
 customElements.define('search-view', SearchView);

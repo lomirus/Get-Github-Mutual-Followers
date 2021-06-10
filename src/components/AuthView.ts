@@ -1,7 +1,6 @@
 class TokenAuth extends HTMLElement {
     button: HTMLButtonElement;
     input: HTMLInputElement;
-    getInputValue: () => string;
     constructor() {
         super();
 
@@ -73,11 +72,10 @@ class TokenAuth extends HTMLElement {
         this.input = document.createElement('input');
         this.input.type = 'text';
         this.input.placeholder = 'Personal Access Token'
+        this.input.addEventListener('change', async () => {
+            localStorage.setItem('token', this.input.value)
+        })
 
-        this.render = this.render.bind(this);
-        this.getInputValue = () => {
-            return this.input.value
-        }
         shadow.appendChild(style);
         shadow.appendChild(this.button);
         shadow.appendChild(this.input);
@@ -88,7 +86,9 @@ class TokenAuth extends HTMLElement {
         this.render()
     }
 
-    render() {
+    getInputValue = () => this.input.value
+
+    render = () => {
         const state: string = localStorage.getItem('authenticated') ?? 'false';
         if (state === "true") {
             this.button.textContent = "✅"

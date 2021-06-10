@@ -1,5 +1,3 @@
-import { authView } from '../elements'
-
 class GetStatus extends HTMLElement {
     constructor() {
         super();
@@ -43,10 +41,11 @@ class GetStatus extends HTMLElement {
         button.addEventListener('click', async () => {
             button.setAttribute('disabled', 'disabled')
             const authenticated = localStorage.getItem('authenticated') === 'true';
+            const token = localStorage.getItem('token');
             const fetchData = (() => {
                 if (authenticated) {
                     const headers = new Headers();
-                    headers.append('Authorization', `token ${authView.getInputValue()}`);
+                    headers.append('Authorization', `token ${token}`);
                     return async () => {
                         const url = `https://api.github.com/rate_limit`
                         return await fetch(url, { headers })
