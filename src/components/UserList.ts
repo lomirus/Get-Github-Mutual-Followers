@@ -23,6 +23,13 @@ class UserList extends HTMLElement {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                color: #24212e;
+                text-decoration: none;
+                word-break: break-all;
+            }
+
+            .user:hover {
+                color: #0366d6
             }
             
             .user>img{
@@ -30,16 +37,6 @@ class UserList extends HTMLElement {
                 border-radius: 50%;
                 margin-bottom: 8px;
                 border: solid 1px #e1e4e8
-            }
-            
-            .user>a{
-                color: #24212e;
-                text-decoration: none;
-                word-break: break-all;
-            }
-            
-            .user>a:hover {
-                color: #0366d6
             }
         `
 
@@ -53,11 +50,13 @@ class UserList extends HTMLElement {
     render = (users: User[]) => {
         this.list.innerHTML = '';
         users.forEach(user => {
-            const userElement = document.createElement('div');
+            const userElement = document.createElement('a');
             userElement.className = "user";
+            userElement.setAttribute('href', user.html_url);
+            userElement.setAttribute('target', '_blank');
             userElement.innerHTML = `
                 <img src="${user.avatar_url}">
-                <a href="${user.html_url}" target="_blank">${user.login}</a>
+                <span>${user.login}</span>
             `;
             this.list.appendChild(userElement);
         });
