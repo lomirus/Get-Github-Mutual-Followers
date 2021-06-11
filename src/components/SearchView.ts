@@ -48,9 +48,9 @@ class SearchView extends HTMLElement {
         
             this.button.setAttribute('disabled', 'disabled');
         
+            console.log(`Starting ${this.input.value}...`)
             const followers = await getPeople(this.input.value, "followers");
             const following = await getPeople(this.input.value, "following");
-            console.log('')
             const mutual = new Array<User>();
         
             for (let i = 0; i < followers.length; i++) {
