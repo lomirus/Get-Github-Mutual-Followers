@@ -1,3 +1,6 @@
+import GithubButtonStyle from '../style/GithubButton'
+import GithubInputStyle from '../style/GithubInput'
+
 class TokenAuth extends HTMLElement {
     button: HTMLButtonElement;
     input: HTMLInputElement;
@@ -8,52 +11,20 @@ class TokenAuth extends HTMLElement {
 
         const style = document.createElement('style');
         style.textContent = `
+            ${GithubButtonStyle}
+            ${GithubInputStyle}
             :host {
                 display: flex;
             }
 
             input {
                 border-radius: 0 4px 4px 0;
-                outline: none;
-                font-size: 14px;
-                line-height: 20px;
-                padding: 5px 12px;
-                border: solid 1px rgb(225, 228, 232);
-            }
-            
-            input:focus {
-                border-color: #0366d6;
-                box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
             }
             
             button {
                 padding: 4px 6px;
                 border-radius: 4px 0 0 4px;
-                background-color: rgb(250, 251, 252);
-                cursor: pointer;
-                border: rgba(27, 31, 35, 0.15) solid 1px;
                 border-right: none;
-                line-height: 20px;
-                font-size: 14px;
-                font-weight: 500;
-                font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
-                transition-delay: 0s;
-                transition-duration: 0.1s;
-                transition-property: color, background-color, border-color;
-                transition-timing-function: cubic-bezier(0.3, 0, 0.5, 1);
-            }
-            
-            button[disabled] {
-                cursor: not-allowed;
-            }
-            
-            button:not([disabled]):hover {
-                background-color: rgb(243, 244, 246);
-            }
-            
-            button:not([disabled]):active {
-                background-color: rgb(235, 236, 240);
-                border-color: rgba(27, 31, 35, 0.1);
             }
         `
 
@@ -98,8 +69,6 @@ class TokenAuth extends HTMLElement {
             this.input.setAttribute('disabled', 'disabled')
         }
     }
-
-
 }
 
 customElements.define('token-auth', TokenAuth);
