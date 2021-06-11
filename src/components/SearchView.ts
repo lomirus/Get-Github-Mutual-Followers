@@ -1,7 +1,7 @@
 import GithubButtonStyle from '../style/GithubButton'
 import GithubInputStyle from '../style/GithubInput'
 
-import { results } from '../elements'
+import { userList } from '../elements'
 import { User, getPeople } from '../utils'
 
 class SearchView extends HTMLElement {
@@ -40,10 +40,9 @@ class SearchView extends HTMLElement {
 
         this.button = document.createElement('button');
         this.button.textContent = 'Search';
-
         this.button.addEventListener('click', async () => {
             if (this.input.value === '') {
-                alert('Target username cannot be empty.');
+                alert("Search-Username's value cannot be empty.");
                 return
             }
         
@@ -60,15 +59,7 @@ class SearchView extends HTMLElement {
                 }
             }
         
-            results.innerHTML = '';
-            mutual.forEach(user => {
-                const userElement = document.createElement('div');
-                userElement.className = "user";
-                userElement.innerHTML = `
-                    <img src="${user.avatar_url}"><a href="${user.html_url}" target="_blank">${user.login}</a>
-                `;
-                results.appendChild(userElement);
-            });
+            userList.render(mutual);
         
             this.button.removeAttribute('disabled');
         })

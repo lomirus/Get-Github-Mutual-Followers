@@ -26,8 +26,8 @@ function jsonToQueryString(json: Record<string, any>): string {
 export async function getPeople(user: string, type: string): Promise<User[]> {
     let people = new Array<User>();
     const authenticated = localStorage.getItem('authenticated') === 'true';
-    const fetchData = (() => {
-        if (authenticated) {
+    const fetchData = authenticated ?
+        (() => {
             const headers = new Headers();
             const token = localStorage.getItem('token')
             headers.append('Authorization', `token ${token}`);
@@ -36,14 +36,12 @@ export async function getPeople(user: string, type: string): Promise<User[]> {
                 const url = `https://api.github.com/users/${user}/${type}?${query}`
                 return await fetch(url, { headers })
             }
-        } else {
-            return async (page: number) => {
-                const query = jsonToQueryString({ "per_page": 100, "page": page });
-                const url = `https://api.github.com/users/${user}/${type}?${query}`
-                return await fetch(url)
-            }
+        })() :
+        async (page: number) => {
+            const query = jsonToQueryString({ "per_page": 100, "page": page });
+            const url = `https://api.github.com/users/${user}/${type}?${query}`
+            return await fetch(url)
         }
-    })();
     for (let page = 1; ; page++) {
         console.log(`Getting ${user}'s ${type} of page:`, page)
         const data = await fetchData(page) as Response;
